@@ -957,88 +957,75 @@ select.error {
         
 
 // 🔹 3. Peupler les communes selon la wilaya choisie
-let algeriaData = {}; // structure : { "01": { name, communes:[], rate:[home,stopdesk] } }
+document.addEventListener("DOMContentLoaded", () => {
+  const wilayaSelect = document.getElementById("wilaya");
+  const communeSelect = document.getElementById("commune");
+  const deliveryType = document.getElementById("deliveryType");
+  const priceDisplay = document.getElementById("priceDisplay");
 
-// Charger le fichier JSON
-async function loadAlgeriaData() {
-  try {
-    const response = await fetch('https://formdz.netlify.app/extracted_data.json');
-    const data = await response.json();
+  // Charger le fichier JSON en ligne
+  fetch("https://formdz.netlify.app/extracted_data.json")
+    .then(response => response.json())
+    .then(data => {
+      // Remplir le menu des wilayas
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.wilaya_code;
+        option.textContent = `${item.wilaya_code} - ${item.wilaya_name}`;
+        wilayaSelect.appendChild(option);
+      });
 
-    // Conversion du tableau JSON en un objet plus facile à utiliser
-    data.forEach(item => {
-      const wilayaCode = item.wilaya_code;
-      const wilayaName = item.wilaya_name;
+      // Quand une wilaya est sélectionnée
+      wilayaSelect.addEventListener("change", () => {
+        const selected = data.find(w => w.wilaya_code === wilayaSelect.value);
 
-      // Séparer les deux tarifs (à domicile / stop desk)
-      const rateParts = item.rate.split(',').map(r => r.trim());
-      const homeRate = parseInt(rateParts[0]) || 0;
-      const stopDeskRate = parseInt(rateParts[1]) || 0;
+        // Réinitialiser le menu des communes
+        communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
 
-      // Transformer la chaîne des communes en tableau
-      const communes = item.commune.split(',').map(c => c.trim());
+        if (selected) {
+          const communes = selected.commune.split(",");
+          communes.forEach(c => {
+            const option = document.createElement("option");
+            option.value = c.trim();
+            option.textContent = c.trim();
+            communeSelect.appendChild(option);
+          });
+          communeSelect.disabled = false;
+        } else {
+          communeSelect.disabled = true;
+        }
 
-      // Stocker dans notre objet principal
-      algeriaData[wilayaCode] = {
-        name: wilayaName,
-        communes: communes,
-        rate: [homeRate, stopDeskRate]
-      };
+        updatePrice(selected);
+      });
+
+      // Quand le type de livraison change
+      deliveryType.addEventListener("change", () => {
+        const selected = data.find(w => w.wilaya_code === wilayaSelect.value);
+        updatePrice(selected);
+      });
+
+      // Fonction d’affichage du prix
+      function updatePrice(selected) {
+        if (!selected) {
+          priceDisplay.textContent = "";
+          return;
+        }
+        const rates = selected.rate.split(",");
+        const home = rates[0];
+        const stopdesk = rates[1];
+        const type = deliveryType.value;
+        const price = type === "home" ? home : stopdesk;
+        priceDisplay.textContent = `📦 سعر التوصيل: ${price} د.ج`;
+      }
+    })
+    .catch(error => {
+      console.error("Erreur lors du chargement du fichier JSON :", error);
     });
-
-    // Peupler le menu déroulant des wilayas
-    populateWilayas('wilaya');
-  } catch (error) {
-    console.error("Erreur de chargement du JSON :", error);
-  }
-}
-
-// Remplir la liste des wilayas
-function populateWilayas(selectId) {
-  const select = document.getElementById(selectId);
-  select.innerHTML = '<option value="">اختر الولاية</option>';
-
-  Object.keys(algeriaData)
-    .sort((a, b) => Number(a) - Number(b))
-    .forEach(code => {
-      const option = document.createElement('option');
-      option.value = code;
-      option.textContent = `${code} - ${algeriaData[code].name}`;
-      select.appendChild(option);
-    });
-}
-
-// Remplir les communes et afficher les prix selon la wilaya choisie
-function populateCommunes(wilayaCode, communeSelectId) {
-  const communeSelect = document.getElementById(communeSelectId);
-  communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
-
-  if (wilayaCode && algeriaData[wilayaCode]) {
-    const communes = algeriaData[wilayaCode].communes;
-    communes.forEach(commune => {
-      const option = document.createElement('option');
-      option.value = commune;
-      option.textContent = commune;
-      communeSelect.appendChild(option);
-    });
-    communeSelect.disabled = false;
-
-    // afficher les prix de livraison
-    const rates = algeriaData[wilayaCode].rate;
-    document.getElementById('rate-home').textContent = rates[0] + ' دج (منزل)';
-    document.getElementById('rate-stopdesk').textContent = rates[1] + ' دج (مكتب)';
-  } else {
-    communeSelect.disabled = true;
-    document.getElementById('rate-home').textContent = '—';
-    document.getElementById('rate-stopdesk').textContent = '—';
-  }
-}
-
-// Démarrage au chargement de la page
-document.addEventListener('DOMContentLoaded', loadAlgeriaData);
+});
     </script>
 
 </body>
 
 </html>
+
 
