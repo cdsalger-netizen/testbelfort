@@ -1347,18 +1347,25 @@ function populateCommunes(wilayaCode) {
 
 // === Fonction pour mettre à jour le prix total ===
 function updatePrices() {
-  const wilayaCode = wilayaSelect.value;
-  const quantity = parseInt(quantityInput.value) || 1;
+  const wilaya = document.getElementById("wilaya").value;
   const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value;
+  const quantity = parseInt(document.getElementById("quantity").value) || 1;
 
-  const selectedWilaya = algeriaData.find(w => w.wilaya_code === wilayaCode);
+  const selectedWilaya = algeriaData.find(w => w.wilaya_code === wilaya);
+  if (!selectedWilaya) return;
 
-  if (selectedWilaya) {
-    const [homeRate, deskRate] = selectedWilaya.rate.split(",").map(r => parseInt(r.trim()));
-    deliveryPrice = deliveryType === "home" ? homeRate : deskRate;
-  } else {
-    deliveryPrice = 0;
-  }
+  const [homeRate, deskRate] = selectedWilaya.rate.split(",").map(r => parseInt(r.trim()));
+
+  const unitPrice = 145000; // 💰 prix unitaire du produit
+  const productTotal = unitPrice * quantity;
+  const deliveryPrice = deliveryType === "home" ? homeRate : deskRate;
+  const total = productTotal + deliveryPrice;
+
+  // ✅ Mise à jour des affichages
+  document.getElementById("productPrice").textContent = `${productTotal.toLocaleString()} د.ج`;
+  document.getElementById("deliveryPrice").textContent = `${deliveryPrice.toLocaleString()} د.ج`;
+  document.getElementById("totalPrice").textContent = `${total.toLocaleString()} د.ج`;
+}
 
   // Mise à jour affichage
   deliveryPriceEl.textContent = deliveryPrice
@@ -1391,6 +1398,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </body>
 
 </html>
+
 
 
 
