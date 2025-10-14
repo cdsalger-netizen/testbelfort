@@ -467,7 +467,7 @@ select.error {
                     <!-- رمز الخصم -->
                   <div class="mb-6">
   <label class="block text-amber-900 font-bold mb-2">طريقة التوصيل <span class="text-red-500">*</span></label>
-
+<select id="deliveryType">
   <div class="flex items-center gap-4 mb-3">
     <label class="inline-flex items-center cursor-pointer">
       <input type="radio" name="deliveryType" value="home" checked class="form-radio h-5 w-5 text-amber-600" />
@@ -478,8 +478,9 @@ select.error {
       <span class="mr-2">استلام من المكتب</span>
     </label>
   </div>
-
-  <div id="priceBreakdown" class="bg-white rounded-lg p-4 border border-amber-100">
+</select>
+                      
+  <div id="pricedisplay" class="bg-white rounded-lg p-4 border border-amber-100">
     <div class="flex justify-between mb-2">
       <span class="text-amber-800 font-semibold">سعر المنتج</span>
       <span id="productPrice" class="text-amber-900 font-bold">145,000 د.ج</span>
@@ -1365,6 +1366,7 @@ const algeriaData =[
 </body>
 
 </html>
+
 
 
 
