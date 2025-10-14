@@ -321,237 +321,212 @@
 
     <!-- Order Form Section -->
     <section class="py-12 md:py-20 bg-white scroll-mt-24" id="order-form">
-        <div class="container mx-auto px-4">
-            <div class="max-w-3xl mx-auto">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-bold text-amber-900 mb-4">
-                        أكمل طلبك الآن
-                    </h2>
-                    <p class="text-lg text-amber-800">
-                        املأ النموذج وسنتصل بك خلال 24 ساعة للتأكيد
-                    </p>
-                </div>
+  <div class="container mx-auto px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-amber-900 mb-4">
+          أكمل طلبك الآن
+        </h2>
+        <p class="text-lg text-amber-800">
+          املأ النموذج وسنتصل بك خلال 24 ساعة للتأكيد
+        </p>
+      </div>
 
-                <form id="orderForm" class="bg-amber-50 rounded-2xl shadow-xl p-6 md:p-10">
-                    <!-- الاسم الكامل -->
-                    <div class="mb-6">
-                        <label for="fullName" class="block text-amber-900 font-bold mb-2">
-                            الاسم الكامل <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" 
-                               id="fullName" 
-                               name="fullName" 
-                               required
-                               class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
-                               placeholder="مثال: أحمد بن محمد">
-                    </div>
-
-                    <!-- رقم الهاتف -->
-                    <div class="mb-6">
-                        <label for="phone" class="block text-amber-900 font-bold mb-2">
-                            رقم الهاتف <span class="text-red-500">*</span>
-                        </label>
-                        <input type="tel" 
-                               id="phone" 
-                               name="phone" 
-                               required
-                               pattern="^(0|\+213)[5-7][0-9]{8}$"
-                               class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
-                               placeholder="+213 660 000 000">
-                        <p class="text-sm text-amber-700 mt-1">مثال: 0660000000 أو +213660000000</p>
-                    </div>
-
-                    <!-- الولاية -->
-                    <div class="form-group">
-    <label for="wilaya">
-        الولاية <span class="required">*</span>
-    </label>
-    <select id="wilaya" name="wilaya" required>
-        <option value="">اختر الولاية</option>
-    </select>
-    <div class="error-message" id="wilayaError">الرجاء اختيار الولاية</div>
-</div>
-
-                    <!-- المدينة -->
-                   <div class="form-group">
-    <label for="commune">
-        البلدية <span class="required">*</span>
-    </label>
-    <select id="commune" name="commune" disabled required>
-        <option value="">اختر البلدية</option>
-    </select>
-    <div class="error-message" id="communeError">الرجاء اختيار البلدية</div>
-</div>
-<style>
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    color: #374151;
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 15px;
-}
-
-.required {
-    color: #ef4444;
-    margin-right: 3px;
-}
-
-select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    background: white;
-    color: #1f2937;
-    cursor: pointer;
-}
-
-select:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-select:disabled {
-    background-color: #f3f4f6;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-select.error {
-    border-color: #ef4444;
-}
-
-.error-message {
-    color: #ef4444;
-    font-size: 13px;
-    margin-top: 5px;
-    display: none;
-}
-
-.error-message.show {
-    display: block;
-}
-</style>
-
-                    <!-- عنوان التوصيل -->
-                    
-
-                    <!-- موديل اللابتوب -->
-                    
-
-                    <!-- اللون -->
-                    
-
-                    <!-- الكمية -->
-                    <div class="mb-6">
-                        <label for="quantity" class="block text-amber-900 font-bold mb-2">
-                            الكمية <span class="text-red-500">*</span>
-                        </label>
-                        <input type="number" 
-                               id="quantity" 
-                               name="quantity" 
-                               required
-                               min="1"
-                               max="10"
-                               value="1"
-                               class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none">
-                    </div>
-
-                    <!-- رمز الخصم -->
-<div class="mb-6">
-  <label class="block text-amber-900 font-bold mb-2">
-    طريقة التوصيل <span class="text-red-500">*</span>
-  </label>
-
-  <!-- Type de livraison (radio) -->
-  <div id="deliveryType" class="flex items-center gap-6 mb-4">
-    <label class="inline-flex items-center cursor-pointer">
-      <input
-        type="radio"
-        name="deliveryType"
-        value="home"
-        checked
-        class="form-radio h-5 w-5 text-amber-600"
-      />
-      <span class="mr-2">🚚 توصيل إلى المنزل</span>
-    </label>
-
-    <label class="inline-flex items-center cursor-pointer">
-      <input
-        type="radio"
-        name="deliveryType"
-        value="desk"
-        class="form-radio h-5 w-5 text-amber-600"
-      />
-      <span class="mr-2">🏢 استلام من المكتب</span>
-    </label>
-  </div>
-
-  <!-- Bloc affichage des prix -->
-  <div id="pricedisplay" class="bg-white rounded-lg p-4 border border-amber-100">
-    <div class="flex justify-between mb-2">
-      <span class="text-amber-800 font-semibold">سعر المنتج</span>
-      <span id="productPrice" class="text-amber-900 font-bold">145,000 د.ج</span>
-    </div>
-
-    <div class="flex justify-between mb-2">
-      <span class="text-amber-800">تكلفة التوصيل</span>
-      <span id="deliveryPrice" class="text-amber-900 font-bold">-- د.ج</span>
-    </div>
-
-    <hr class="my-2 border-amber-100" />
-
-    <div class="flex justify-between">
-      <span class="text-amber-900 font-bold text-lg">الإجمالي</span>
-      <span id="totalPrice" class="text-amber-900 font-extrabold text-lg">-- د.ج</span>
-    </div>
-  </div>
-</div>
-                    <!-- ملاحظات -->
-                   
-
-                    <!-- الموافقة على الشروط -->
-                    <div class="mb-6">
-                        <label class="flex items-start cursor-pointer">
-                            <input type="checkbox" 
-                                   id="terms" 
-                                   name="terms" 
-                                   required
-                                   class="mt-1 ml-3 w-5 h-5 text-amber-600 border-amber-300 rounded focus:ring-amber-500">
-                            <span class="text-amber-900">
-                                أوافق على <a href="#" class="text-amber-700 underline font-bold">شروط الخدمة</a> و<a href="#" class="text-amber-700 underline font-bold">سياسة الاسترجاع</a> <span class="text-red-500">*</span>
-                            </span>
-                        </label>
-                    </div>
-
-                    <!-- زر الإرسال -->
-                    <button type="submit" 
-                            class="btn-primary w-full text-white px-8 py-4 rounded-full font-bold text-xl shadow-xl mb-4">
-                        تأكيد الطلب
-                    </button>
-
-                    <div class="text-center">
-                        <p class="text-amber-800 mb-2">
-                            <svg class="w-5 h-5 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                            </svg>
-                            للطلب عبر الهاتف: <strong class="text-amber-900">+213 660 000 000</strong>
-                        </p>
-                        <p class="text-sm text-gray-600">
-                            خدمة العملاء متاحة من السبت إلى الخميس: 9 صباحاً - 6 مساءً
-                        </p>
-                    </div>
-                </form>
-            </div>
+      <form id="orderForm" class="bg-amber-50 rounded-2xl shadow-xl p-6 md:p-10">
+        <!-- الاسم الكامل -->
+        <div class="mb-6">
+          <label for="fullName" class="block text-amber-900 font-bold mb-2">
+            الاسم الكامل <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            required
+            class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
+            placeholder="مثال: أحمد بن محمد"
+          />
         </div>
-    </section>
+
+        <!-- رقم الهاتف -->
+        <div class="mb-6">
+          <label for="phone" class="block text-amber-900 font-bold mb-2">
+            رقم الهاتف <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            pattern="^(0|\\+213)[5-7][0-9]{8}$"
+            class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
+            placeholder="+213 660 000 000"
+          />
+          <p class="text-sm text-amber-700 mt-1">
+            مثال: 0660000000 أو +213660000000
+          </p>
+        </div>
+
+        <!-- الولاية -->
+        <div class="mb-6">
+          <label for="wilaya" class="block text-amber-900 font-bold mb-2">
+            الولاية <span class="text-red-500">*</span>
+          </label>
+          <select
+            id="wilaya"
+            name="wilaya"
+            required
+            class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
+          >
+            <option value="">اختر الولاية</option>
+          </select>
+          <div class="text-red-500 text-sm mt-1 hidden" id="wilayaError">
+            الرجاء اختيار الولاية
+          </div>
+        </div>
+
+        <!-- البلدية -->
+        <div class="mb-6">
+          <label for="commune" class="block text-amber-900 font-bold mb-2">
+            البلدية <span class="text-red-500">*</span>
+          </label>
+          <select
+            id="commune"
+            name="commune"
+            disabled
+            required
+            class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
+          >
+            <option value="">اختر البلدية</option>
+          </select>
+          <div class="text-red-500 text-sm mt-1 hidden" id="communeError">
+            الرجاء اختيار البلدية
+          </div>
+        </div>
+
+        <!-- الكمية -->
+        <div class="mb-6">
+          <label for="quantity" class="block text-amber-900 font-bold mb-2">
+            الكمية <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            required
+            min="1"
+            max="10"
+            value="1"
+            class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- طريقة التوصيل -->
+        <div class="mb-6">
+          <label class="block text-amber-900 font-bold mb-2">
+            طريقة التوصيل <span class="text-red-500">*</span>
+          </label>
+
+          <div id="deliveryType" class="flex items-center gap-6 mb-4">
+            <label class="inline-flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="deliveryType"
+                value="home"
+                checked
+                class="form-radio h-5 w-5 text-amber-600"
+              />
+              <span class="mr-2">🚚 توصيل إلى المنزل</span>
+            </label>
+
+            <label class="inline-flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="deliveryType"
+                value="desk"
+                class="form-radio h-5 w-5 text-amber-600"
+              />
+              <span class="mr-2">🏢 استلام من المكتب</span>
+            </label>
+          </div>
+
+          <!-- Bloc des prix -->
+          <div
+            id="pricedisplay"
+            class="bg-white rounded-lg p-4 border border-amber-100 shadow-sm"
+          >
+            <div class="flex justify-between mb-2">
+              <span class="text-amber-800 font-semibold">سعر المنتج</span>
+              <span id="productPrice" class="text-amber-900 font-bold"
+                >145,000 د.ج</span
+              >
+            </div>
+
+            <div class="flex justify-between mb-2">
+              <span class="text-amber-800">تكلفة التوصيل</span>
+              <span id="deliveryPrice" class="text-amber-900 font-bold"
+                >-- د.ج</span
+              >
+            </div>
+
+            <hr class="my-2 border-amber-100" />
+
+            <div class="flex justify-between">
+              <span class="text-amber-900 font-bold text-lg">الإجمالي</span>
+              <span
+                id="totalPrice"
+                class="text-amber-900 font-extrabold text-lg"
+                >-- د.ج</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- الموافقة على الشروط -->
+        <div class="mb-6">
+          <label class="flex items-start cursor-pointer">
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              required
+              class="mt-1 ml-3 w-5 h-5 text-amber-600 border-amber-300 rounded focus:ring-amber-500"
+            />
+            <span class="text-amber-900">
+              أوافق على
+              <a href="#" class="text-amber-700 underline font-bold"
+                >شروط الخدمة</a
+              >
+              و
+              <a href="#" class="text-amber-700 underline font-bold"
+                >سياسة الاسترجاع</a
+              >
+              <span class="text-red-500">*</span>
+            </span>
+          </label>
+        </div>
+
+        <!-- زر الإرسال -->
+        <button
+          type="submit"
+          class="w-full text-white px-8 py-4 rounded-full font-bold text-xl shadow-xl mb-4 bg-gradient-to-r from-amber-600 to-amber-800 hover:from-amber-700 hover:to-amber-900 transition"
+        >
+          تأكيد الطلب
+        </button>
+
+        <div class="text-center">
+          <p class="text-amber-800 mb-2">
+            للطلب عبر الهاتف:
+            <strong class="text-amber-900">+213 660 000 000</strong>
+          </p>
+          <p class="text-sm text-gray-600">
+            خدمة العملاء متاحة من السبت إلى الخميس: 9 صباحاً - 6 مساءً
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
 
     <!-- FAQ Section -->
     <section class="py-12 md:py-20 bg-amber-50" id="faq">
@@ -1392,6 +1367,7 @@ document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
 </body>
 
 </html>
+
 
 
 
