@@ -1367,15 +1367,6 @@ function updatePrices() {
   document.getElementById("totalPrice").textContent = `${total.toLocaleString()} د.ج`;
 }
 
-  // Mise à jour affichage
-  deliveryPriceEl.textContent = deliveryPrice
-    ? `${deliveryPrice.toLocaleString()} د.ج`
-    : "-- د.ج";
-
-  const total = productPrice * quantity + deliveryPrice;
-  totalPriceEl.textContent = total.toLocaleString() + " د.ج";
-}
-
 // === Événements ===
 wilayaSelect.addEventListener("change", e => {
   populateCommunes(e.target.value);
@@ -1398,6 +1389,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </body>
 
 </html>
+
 
 
 
