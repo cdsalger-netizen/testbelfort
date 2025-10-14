@@ -957,34 +957,127 @@ select.error {
         
 
 // 🔹 3. Peupler les communes selon la wilaya choisie
-function populateCommunes(wilayaCode, communeSelectId) {
-    const communeSelect = document.getElementById(communeSelectId);
-    communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+let algeriaData = {}; // structure finale: { "01": { name, communes:[], rate:[home,desk] } }
 
-    if (wilayaCode && algeriaData[wilayaCode]) {
-        const communes = algeriaData[wilayaCode].communes;
-        communes.forEach(commune => {
-            const option = document.createElement('option');
-            option.value = commune;
-            option.textContent = commune;
-            communeSelect.appendChild(option);
-        });
-        communeSelect.disabled = false;
+async function loadAlgeriaData() {
+  try {
+    const res = await fetch('https://formdz.netlify.app/extracted_data.json');
+    const raw = await res.json(); // raw est un tableau d'objets
 
-        // 🔸 afficher les prix de livraison
-        const rates = algeriaData[wilayaCode].rate;
-        document.getElementById('rate-home').textContent = rates[0] + ' دج (منزل)';
-        document.getElementById('rate-stopdesk').textContent = rates[1] + ' دج (مكتب)';
-    } else {
-        communeSelect.disabled = true;
-        document.getElementById('rate-home').textContent = '—';
-        document.getElementById('rate-stopdesk').textContent = '—';
-    }
+    raw.forEach(item => {
+      // --- 1) communes : transformer la chaîne en tableau propre
+      let communes = [];
+      if (typeof item.commune === 'string') {
+        communes = item.commune
+          .split(',')                // séparer par virgule
+          .map(s => s.trim())        // enlever espaces
+          .filter(s => s.length);    // retirer vides éventuels
+      } else if (Array.isArray(item.commune)) {
+        communes = item.commune;
+      }
+
+      // --- 2) rate : transformer en [homeRate, stopdeskRate] (nombres)
+      // On gère plusieurs cas : "374,311" -> ["374","311"]
+      // ou "374" (seul) -> [374, 0] (fallback)
+      let rates = [0, 0];
+      if (typeof item.rate === 'string') {
+        // certains fichiers peuvent utiliser des espaces ; on accepte aussi ';'
+        const parts = item.rate.split(/[,;|]/).map(s => s.trim()).filter(s => s.length);
+        if (parts.length >= 2) {
+          rates = parts.slice(0,2).map(p => parseNumberFromString(p));
+        } else if (parts.length === 1) {
+          // si une seule valeur trouvée, on l'utilise pour home et 0 pour stopdesk
+          rates = [parseNumberFromString(parts[0]), 0];
+        }
+      } else if (Array.isArray(item.rate)) {
+        rates = item.rate.slice(0,2).map(r => Number(r) || 0);
+      } else if (typeof item.rate === 'number') {
+        rates = [item.rate, 0];
+      }
+
+      // --- stocker par code de la wilaya
+      const code = item.wilaya_code || item.code || item.id || item.wilaya; // tolérance
+      const name = item.wilaya_name || item.name || '';
+
+      algeriaData[code] = {
+        name,
+        communes,
+        rate: rates
+      };
+    });
+
+    // une fois les données prêtes, peupler la select
+    populateWilayas('wilaya');
+  } catch (err) {
+    console.error('Erreur chargement JSON:', err);
+  }
 }
 
-// 🔹 4. Lancer au chargement de la page
+// helper : parse un nombre même si la string contient des séparateurs de milliers
+function parseNumberFromString(s) {
+  if (!s) return 0;
+  // enlever espaces, points ou apostrophes utilisés comme séparateur de milliers
+  const cleaned = s.replace(/\s+/g, '').replace(/['.]/g, '').replace(/٫/g, '.');
+  // si la chaîne contient une virgule et ressemble à "374,311" on suppose que c'est deux valeurs séparées,
+  // mais ici on arrive déjà après le split, donc juste remplacer virgule décimale par point si besoin
+  const normalized = cleaned.replace(',', '.');
+  const n = Number(normalized);
+  return isNaN(n) ? 0 : Math.round(n);
+}
+
+// --- remplir la liste des wilayas (affichage "01 - أدرار")
+function populateWilayas(selectId) {
+  const sel = document.getElementById(selectId);
+  sel.innerHTML = '<option value="">اختر الولاية</option>';
+  // trier par code numérique si possible
+  Object.keys(algeriaData)
+    .sort((a,b) => Number(a) - Number(b))
+    .forEach(code => {
+      const opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = `${code} - ${algeriaData[code].name}`;
+      sel.appendChild(opt);
+    });
+}
+
+// --- remplir communes selon code de la wilaya
+function populateCommunes(wilayaCode, communeSelectId) {
+  const communeSelect = document.getElementById(communeSelectId);
+  communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+
+  if (wilayaCode && algeriaData[wilayaCode]) {
+    const communes = algeriaData[wilayaCode].communes;
+    communes.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      communeSelect.appendChild(opt);
+    });
+    communeSelect.disabled = false;
+
+    // afficher rates si éléments présents
+    const rates = algeriaData[wilayaCode].rate;
+    const elHome = document.getElementById('rate-home');
+    const elStop = document.getElementById('rate-stopdesk');
+    if (elHome) elHome.textContent = formatDZD(rates[0]);
+    if (elStop) elStop.textContent = formatDZD(rates[1]);
+  } else {
+    communeSelect.disabled = true;
+    if (document.getElementById('rate-home')) document.getElementById('rate-home').textContent = '—';
+    if (document.getElementById('rate-stopdesk')) document.getElementById('rate-stopdesk').textContent = '—';
+  }
+}
+
+// helper formatage
+function formatDZD(n) {
+  if (!n && n !== 0) return '— دج';
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج';
+}
+
+// Exécution au chargement de la page
 document.addEventListener('DOMContentLoaded', loadAlgeriaData);
     </script>
 
 </body>
+
 </html>
