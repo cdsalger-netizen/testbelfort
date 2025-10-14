@@ -1325,64 +1325,74 @@ const algeriaData =[
     "commune": "المنيعة,حاسي الفحل,حاسي القارة"
   }
 ];
-        document.addEventListener("DOMContentLoaded", () => {
-  const wilayaSelect = document.getElementById("wilaya");
-  const communeSelect = document.getElementById("commune");
-  const deliveryType = document.getElementById("deliveryType");
-  const priceDisplay = document.getElementById("priceDisplay");
+       onst productPrice = 145000; // prix fixe du produit
+const wilayaSelect = document.getElementById("wilaya");
+const deliveryPriceEl = document.getElementById("deliveryPrice");
+const totalPriceEl = document.getElementById("totalPrice");
 
-  // Remplir le menu des wilayas
-  algeriaData.forEach(item => {
+let deliveryRates = [];
+
+// Charger le fichier JSON depuis ton lien
+fetch("https://formdz.netlify.app/extracted_data.json")
+  .then(res => res.json())
+  .then(data => {
+    deliveryRates = data;
+    populateWilayas(data);
+  });
+
+// Peupler la liste des wilayas
+function populateWilayas(data) {
+  data.forEach(item => {
     const option = document.createElement("option");
     option.value = item.wilaya_code;
     option.textContent = `${item.wilaya_code} - ${item.wilaya_name}`;
     wilayaSelect.appendChild(option);
   });
+}
 
-  // Quand une wilaya est choisie
-  wilayaSelect.addEventListener("change", () => {
-    const selected = algeriaData.find(w => w.wilaya_code === wilayaSelect.value);
+// Quand on change de wilaya → remplir les communes + recalculer prix
+wilayaSelect.addEventListener("change", () => {
+  const selected = deliveryRates.find(w => w.wilaya_code === wilayaSelect.value);
+  const communeSelect = document.getElementById("commune");
 
-    communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
-    if (selected) {
-      const communes = selected.commune.split(",");
-      communes.forEach(c => {
-        const option = document.createElement("option");
-        option.value = c.trim();
-        option.textContent = c.trim();
-        communeSelect.appendChild(option);
-      });
-      communeSelect.disabled = false;
-    } else {
-      communeSelect.disabled = true;
-    }
-
-    updatePrice(selected);
-  });
-
-  // Quand le type de livraison change
-  deliveryType.addEventListener("change", () => {
-    const selected = algeriaData.find(w => w.wilaya_code === wilayaSelect.value);
-    updatePrice(selected);
-  });
-
-  // Fonction affichage du prix
-  function updatePrice(selected) {
-    if (!selected) {
-      priceDisplay.textContent = "";
-      return;
-    }
-    const [home, stopdesk] = selected.rate.split(",");
-    const type = deliveryType.value;
-    const price = type === "home" ? home : stopdesk;
-    priceDisplay.textContent = `📦 سعر التوصيل: ${price} د.ج`;
+  communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+  if (selected) {
+    selected.commune.split(",").forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name.trim();
+      opt.textContent = name.trim();
+      communeSelect.appendChild(opt);
+    });
+    communeSelect.disabled = false;
   }
+
+  updateDeliveryPrice();
+});
+
+// Fonction pour mettre à jour les prix
+function updateDeliveryPrice() {
+  const selectedWilaya = deliveryRates.find(w => w.wilaya_code === wilayaSelect.value);
+  const deliveryTypeRadio = document.querySelector('input[name="deliveryType"]:checked');
+  
+  if (!selectedWilaya || !deliveryTypeRadio) return;
+
+  const [homePrice, stopDeskPrice] = selectedWilaya.rate.split(",").map(p => parseInt(p));
+  let deliveryPrice = deliveryTypeRadio.value === "home" ? homePrice : stopDeskPrice;
+
+  deliveryPriceEl.textContent = `${deliveryPrice.toLocaleString()} د.ج`;
+  totalPriceEl.textContent = `${(productPrice + deliveryPrice).toLocaleString()} د.ج`;
+}
+
+// Quand on change de type de livraison → mettre à jour le prix
+document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
+  radio.addEventListener("change", updateDeliveryPrice);
 });
     </script>
 
 </body>
 
 </html>
+
 
 
 
