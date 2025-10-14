@@ -465,38 +465,55 @@ select.error {
                     </div>
 
                     <!-- رمز الخصم -->
-                  <div class="mb-6">
-  <label class="block text-amber-900 font-bold mb-2">طريقة التوصيل <span class="text-red-500">*</span></label>
-<select id="deliveryType">
-  <div class="flex items-center gap-4 mb-3">
+<div class="mb-6">
+  <label class="block text-amber-900 font-bold mb-2">
+    طريقة التوصيل <span class="text-red-500">*</span>
+  </label>
+
+  <!-- Type de livraison (radio) -->
+  <div id="deliveryType" class="flex items-center gap-6 mb-4">
     <label class="inline-flex items-center cursor-pointer">
-      <input type="radio" name="deliveryType" value="home" checked class="form-radio h-5 w-5 text-amber-600" />
-      <span class="mr-2">توصيل إلى المنزل</span>
+      <input
+        type="radio"
+        name="deliveryType"
+        value="home"
+        checked
+        class="form-radio h-5 w-5 text-amber-600"
+      />
+      <span class="mr-2">🚚 توصيل إلى المنزل</span>
     </label>
+
     <label class="inline-flex items-center cursor-pointer">
-      <input type="radio" name="deliveryType" value="desk" class="form-radio h-5 w-5 text-amber-600" />
-      <span class="mr-2">استلام من المكتب</span>
+      <input
+        type="radio"
+        name="deliveryType"
+        value="desk"
+        class="form-radio h-5 w-5 text-amber-600"
+      />
+      <span class="mr-2">🏢 استلام من المكتب</span>
     </label>
   </div>
-</select>
-                      
+
+  <!-- Bloc affichage des prix -->
   <div id="pricedisplay" class="bg-white rounded-lg p-4 border border-amber-100">
     <div class="flex justify-between mb-2">
       <span class="text-amber-800 font-semibold">سعر المنتج</span>
       <span id="productPrice" class="text-amber-900 font-bold">145,000 د.ج</span>
     </div>
+
     <div class="flex justify-between mb-2">
       <span class="text-amber-800">تكلفة التوصيل</span>
       <span id="deliveryPrice" class="text-amber-900 font-bold">-- د.ج</span>
     </div>
+
     <hr class="my-2 border-amber-100" />
+
     <div class="flex justify-between">
       <span class="text-amber-900 font-bold text-lg">الإجمالي</span>
       <span id="totalPrice" class="text-amber-900 font-extrabold text-lg">-- د.ج</span>
     </div>
   </div>
 </div>
-
                     <!-- ملاحظات -->
                    
 
@@ -1366,6 +1383,7 @@ const algeriaData =[
 </body>
 
 </html>
+
 
 
 
