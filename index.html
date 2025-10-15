@@ -50,12 +50,15 @@
         
         /* Gallery styles */
         .gallery-container {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .gallery-slide {
-            display: none;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.gallery-slide {
+  width: 100%;
             animation: fadeIn 0.5s ease;
         }
         
