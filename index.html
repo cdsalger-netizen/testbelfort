@@ -426,25 +426,28 @@
     <option value="46">46</option>
   </select>
 </div>
+
           <div class="mb-6">
-  <label for="color" class="block text-amber-900 font-bold mb-2">
+  <label for="color" class="block text-amber-900 font-bold mb-3">
     اللون <span class="text-red-500">*</span>
   </label>
-  <select 
-      id="color" 
-      name="color" 
-      required
-      class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none">
-    <option value="">اختر اللون</option>
-    <option value="أسود">أسود 🖤</option>
-    <option value="أبيض">أبيض 🤍</option>
-    <option value="رمادي">رمادي ⚪</option>
-    <option value="أزرق">أزرق 💙</option>
-    <option value="أحمر">أحمر ❤️</option>
-    <option value="بني">بني 🤎</option>
-    <option value="بيج">بيج 🤍</option>
-  </select>
-</div>
+
+        <div id="color" class="flex flex-wrap gap-3">
+    <!-- Noir -->
+    <label class="cursor-pointer">
+      <input type="radio" name="color" value="أسود" class="hidden peer" required>
+      <div class="w-10 h-10 rounded-full border-4 border-transparent peer-checked:border-amber-500 bg-black transition"></div>
+      <span class="block text-center text-sm mt-1 text-amber-900">أسود</span>
+    </label>
+
+    <!-- أبيض -->
+    <label class="cursor-pointer">
+      <input type="radio" name="color" value="أبيض" class="hidden peer" required>
+      <div class="w-10 h-10 rounded-full border border-gray-400 bg-white peer-checked:border-amber-500 transition"></div>
+      <span class="block text-center text-sm mt-1 text-amber-900">أبيض</span>
+    </label>
+        </div>       
+            </div>
 
         <!-- الكمية -->
         <div class="mb-6">
