@@ -349,23 +349,32 @@
         </div>
 
         <!-- رقم الهاتف -->
-        <div class="mb-6">
-          <label for="phone" class="block text-amber-900 font-bold mb-2">
-            رقم الهاتف <span class="text-red-500">*</span>
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            required
-            pattern="^(0|\\+213)[5-7][0-9]{8}$"
-            class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
-            placeholder="+213 660 000 000"
-          />
-          <p class="text-sm text-amber-700 mt-1">
-            مثال: 0660000000 أو +213660000000
-          </p>
-        </div>
+        <div class="mb-6 flex items-end justify-between gap-4">
+  <div class="flex-1">
+    <label for="phone" class="block text-amber-900 font-bold mb-2">
+      رقم الهاتف <span class="text-red-500">*</span>
+    </label>
+    <input
+      type="tel"
+      id="phone"
+      name="phone"
+      required
+      pattern="^(0|\\+213)[5-7][0-9]{8}$"
+      class="w-full px-4 py-3 rounded-lg border-2 border-amber-200 focus:border-amber-500 focus:outline-none"
+      placeholder="+213 660 000 000"
+    />
+    <p class="text-sm text-amber-700 mt-1">
+      مثال: 0660000000 أو +213660000000
+    </p>
+  </div>
+
+  <button
+    type="submit"
+    class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300"
+  >
+    تأكيد الطلب
+  </button>
+</div>
 
         <!-- الولاية -->
         <div class="mb-6">
